@@ -4,22 +4,29 @@
 package ru.citycheck.core.domain.db;
 
 
-import ru.citycheck.core.domain.db.tables.FlywaySchemaHistory;
-import ru.citycheck.core.domain.db.tables.JwtTokens;
-import ru.citycheck.core.domain.db.tables.UserRoles;
-import ru.citycheck.core.domain.db.tables.Users;
+import ru.citycheck.core.domain.db.tables.*;
 
 
 /**
  * Convenience access to all tables in public.
  */
-@SuppressWarnings({ "all", "unchecked", "rawtypes" })
+@SuppressWarnings({"all", "unchecked", "rawtypes"})
 public class Tables {
+
+    /**
+     * The table <code>public.category</code>.
+     */
+    public static final Category CATEGORY = Category.CATEGORY;
 
     /**
      * The table <code>public.flyway_schema_history</code>.
      */
     public static final FlywaySchemaHistory FLYWAY_SCHEMA_HISTORY = FlywaySchemaHistory.FLYWAY_SCHEMA_HISTORY;
+
+    /**
+     * The table <code>public.issue</code>.
+     */
+    public static final Issue ISSUE = Issue.ISSUE;
 
     /**
      * The table <code>public.jwt_tokens</code>.

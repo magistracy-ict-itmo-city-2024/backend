@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS users (
-   id             BIGSERIAL,
+   id             BIGSERIAL PRIMARY KEY,
    username       VARCHAR(128) UNIQUE,
    password       VARCHAR(128),
    is_disabled    BOOLEAN

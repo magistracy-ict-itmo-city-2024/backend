@@ -1,13 +1,12 @@
 package ru.citycheck.core.domain.repository.impl
 
+import org.jooq.DSLContext
+import org.slf4j.LoggerFactory
+import org.springframework.stereotype.Repository
 import ru.citycheck.core.domain.db.tables.UserRoles
 import ru.citycheck.core.domain.db.tables.records.UserRolesRecord
 import ru.citycheck.core.domain.model.auth.Role
 import ru.citycheck.core.domain.repository.RoleRepository
-import org.jooq.DSLContext
-import org.slf4j.LoggerFactory
-import org.springframework.stereotype.Repository
-import java.lang.IllegalArgumentException
 
 @Repository
 class RoleRepositoryImpl(

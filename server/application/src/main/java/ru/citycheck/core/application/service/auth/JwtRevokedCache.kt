@@ -1,9 +1,8 @@
 package ru.citycheck.core.application.service.auth
 
-import ru.citycheck.core.domain.model.auth.JwtToken
-import ru.citycheck.core.domain.repository.JwtTokensRepository
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
+import ru.citycheck.core.domain.repository.JwtTokensRepository
 import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.atomic.AtomicReference

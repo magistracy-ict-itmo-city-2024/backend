@@ -1,13 +1,13 @@
 package ru.citycheck.core.application.service.auth
 
-import ru.citycheck.core.domain.model.auth.Role
-import ru.citycheck.core.domain.model.auth.User
-import ru.citycheck.core.domain.repository.UserRepository
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.core.userdetails.UsernameNotFoundException
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
+import ru.citycheck.core.domain.model.auth.Role
+import ru.citycheck.core.domain.model.auth.User
+import ru.citycheck.core.domain.repository.UserRepository
 
 @Service
 class UserDetailsServiceImpl(

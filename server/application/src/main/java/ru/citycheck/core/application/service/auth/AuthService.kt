@@ -1,14 +1,14 @@
 package ru.citycheck.core.application.service.auth
 
+import org.springframework.security.core.context.SecurityContextHolder
+import org.springframework.security.crypto.password.PasswordEncoder
+import org.springframework.stereotype.Service
+import org.springframework.transaction.support.TransactionTemplate
 import ru.citycheck.core.application.service.auth.models.JwtAuthentication
 import ru.citycheck.core.application.service.auth.models.JwtTokens
 import ru.citycheck.core.domain.model.auth.JwtToken
 import ru.citycheck.core.domain.model.auth.User
 import ru.citycheck.core.domain.repository.JwtTokensRepository
-import org.springframework.security.core.context.SecurityContextHolder
-import org.springframework.security.crypto.password.PasswordEncoder
-import org.springframework.stereotype.Service
-import org.springframework.transaction.support.TransactionTemplate
 
 @Service
 class AuthService(

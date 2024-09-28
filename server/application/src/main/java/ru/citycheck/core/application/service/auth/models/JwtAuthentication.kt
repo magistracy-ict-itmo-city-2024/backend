@@ -1,9 +1,8 @@
 package ru.citycheck.core.application.service.auth.models
 
-import ru.citycheck.core.domain.model.auth.Role
 import org.springframework.security.core.Authentication
-import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
+import ru.citycheck.core.domain.model.auth.Role
 
 class JwtAuthentication(
     private val name: String,

@@ -1,7 +1,7 @@
 package ru.citycheck.core.application.service.auth
 
-import ru.citycheck.core.domain.repository.JwtTokensRepository
 import org.springframework.stereotype.Service
+import ru.citycheck.core.domain.repository.JwtTokensRepository
 import java.util.concurrent.Executors
 
 @Service

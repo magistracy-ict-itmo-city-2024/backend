@@ -1,5 +1,10 @@
 package ru.citycheck.core.web.v0
 
+import org.slf4j.LoggerFactory
+import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
+import org.springframework.security.core.context.SecurityContextHolder
+import org.springframework.stereotype.Controller
 import ru.citycheck.core.api.v0.UserApi
 import ru.citycheck.core.api.v0.dto.user.JwtTokensDto
 import ru.citycheck.core.api.v0.dto.user.RoleDto
@@ -9,13 +14,6 @@ import ru.citycheck.core.application.service.auth.UserDetailsServiceImpl
 import ru.citycheck.core.application.service.auth.models.JwtTokens
 import ru.citycheck.core.domain.model.auth.Role
 import ru.citycheck.core.domain.model.auth.User
-import org.slf4j.LoggerFactory
-import org.springframework.http.HttpStatus
-import org.springframework.http.ResponseEntity
-import org.springframework.security.access.prepost.PreAuthorize
-import org.springframework.security.core.context.SecurityContextHolder
-import org.springframework.stereotype.Controller
-import org.springframework.web.bind.annotation.RequestParam
 
 @Controller
 class UserApiImpl(
@@ -74,7 +72,10 @@ class UserApiImpl(
     override fun removeRole(userId: Long, roleDto: RoleDto): ResponseEntity<String> {
         val username = SecurityContextHolder.getContext().authentication.name
         LOG.info("Removing role $roleDto to $username")
-        userDetailsServiceImpl.removeRole(userDetailsServiceImpl.getUser(username).id!!, Role.valueOf(roleDto.role.name))
+        userDetailsServiceImpl.removeRole(
+            userDetailsServiceImpl.getUser(username).id!!,
+            Role.valueOf(roleDto.role.name),
+        )
         return ResponseEntity(HttpStatus.OK)
     }
 

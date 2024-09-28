@@ -1,11 +1,11 @@
 package ru.citycheck.core.domain.repository.impl
 
+import org.jooq.DSLContext
+import org.springframework.stereotype.Repository
 import ru.citycheck.core.domain.db.tables.JwtTokens
 import ru.citycheck.core.domain.db.tables.records.JwtTokensRecord
 import ru.citycheck.core.domain.model.auth.JwtToken
 import ru.citycheck.core.domain.repository.JwtTokensRepository
-import org.jooq.DSLContext
-import org.springframework.stereotype.Repository
 
 @Repository
 class JwtTokensRepositoryImpl(

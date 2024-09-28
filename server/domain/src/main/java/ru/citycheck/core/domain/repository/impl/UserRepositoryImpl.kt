@@ -1,14 +1,14 @@
 package ru.citycheck.core.domain.repository.impl
 
+import org.jooq.DSLContext
+import org.springframework.stereotype.Repository
+import org.springframework.transaction.support.TransactionTemplate
 import ru.citycheck.core.domain.db.Tables.USERS
 import ru.citycheck.core.domain.db.tables.UserRoles.USER_ROLES
 import ru.citycheck.core.domain.db.tables.records.UsersRecord
 import ru.citycheck.core.domain.model.auth.Role
 import ru.citycheck.core.domain.model.auth.User
 import ru.citycheck.core.domain.repository.UserRepository
-import org.jooq.DSLContext
-import org.springframework.stereotype.Repository
-import org.springframework.transaction.support.TransactionTemplate
 
 @Repository
 class UserRepositoryImpl(
@@ -92,7 +92,7 @@ class UserRepositoryImpl(
             .where(USER_ROLES.USER_ID.eq(userId))
             .fetchSet(USER_ROLES.ROLE)
             .mapNotNull {
-                try{
+                try {
                     Role.valueOf(it)
                 } catch (e: IllegalArgumentException) {
                     null
