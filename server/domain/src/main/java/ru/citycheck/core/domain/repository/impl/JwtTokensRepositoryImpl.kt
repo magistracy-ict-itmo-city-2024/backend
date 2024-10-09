@@ -13,7 +13,7 @@ class JwtTokensRepositoryImpl(
 ) : JwtTokensRepository {
     override fun saveToken(token: JwtToken) {
         dsl.insertInto(JwtTokens.JWT_TOKENS)
-            .values(token.toRecord())
+            .set(token.toRecord())
             .execute()
     }
 

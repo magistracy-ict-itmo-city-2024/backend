@@ -4,13 +4,18 @@
 package ru.citycheck.core.domain.db;
 
 
-import ru.citycheck.core.domain.db.tables.*;
+import ru.citycheck.core.domain.db.tables.Category;
+import ru.citycheck.core.domain.db.tables.FlywaySchemaHistory;
+import ru.citycheck.core.domain.db.tables.Issue;
+import ru.citycheck.core.domain.db.tables.JwtTokens;
+import ru.citycheck.core.domain.db.tables.UserRoles;
+import ru.citycheck.core.domain.db.tables.Users;
 
 
 /**
  * Convenience access to all tables in public.
  */
-@SuppressWarnings({"all", "unchecked", "rawtypes"})
+@SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Tables {
 
     /**

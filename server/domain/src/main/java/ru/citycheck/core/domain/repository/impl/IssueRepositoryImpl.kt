@@ -1,6 +1,7 @@
 package ru.citycheck.core.domain.repository.impl
 
 import org.jooq.DSLContext
+import org.jooq.impl.DSL
 import org.springframework.stereotype.Repository
 import ru.citycheck.core.domain.db.Tables.ISSUE
 import ru.citycheck.core.domain.db.tables.records.IssueRecord
@@ -46,9 +47,16 @@ class IssueRepositoryImpl(
             ?.toModel()
     }
 
-    override fun getIssues(): List<Issue> {
+    override fun getIssues(userUuid: String?): List<Issue> {
+        val condition = DSL.trueCondition()
+
+        if (userUuid != null) {
+            condition.and(ISSUE.REPORTER_ID.eq(userUuid))
+        }
+
         return dslContext
             .selectFrom(ISSUE)
+            .where(condition)
             .fetch()
             .map { it.toModel() }
     }
@@ -65,6 +73,7 @@ class IssueRepositoryImpl(
             createdAt,
             updatedAt,
             documentPath,
+            contentType,
             actualityStatus.name,
             location.lat,
             location.lon,
@@ -81,6 +90,7 @@ class IssueRepositoryImpl(
             createdAt,
             updatedAt,
             documentPath,
+            contentType,
             Issue.ActualStatus.valueOf(actualityStatus),
             Location(
                 locationLat,

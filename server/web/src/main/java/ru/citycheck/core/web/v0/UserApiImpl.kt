@@ -9,6 +9,7 @@ import ru.citycheck.core.api.v0.UserApi
 import ru.citycheck.core.api.v0.dto.user.JwtTokensDto
 import ru.citycheck.core.api.v0.dto.user.RoleDto
 import ru.citycheck.core.api.v0.dto.user.UserDto
+import ru.citycheck.core.api.v0.dto.user.UserDtoNoPass
 import ru.citycheck.core.application.service.auth.AuthService
 import ru.citycheck.core.application.service.auth.UserDetailsServiceImpl
 import ru.citycheck.core.application.service.auth.models.JwtTokens
@@ -43,7 +44,7 @@ class UserApiImpl(
         return ResponseEntity(jwt.toDto(), HttpStatus.OK)
     }
 
-    override fun me(): ResponseEntity<UserDto> {
+    override fun me(): ResponseEntity<UserDtoNoPass> {
         val username = SecurityContextHolder.getContext().authentication.name
         LOG.info("Username $username")
         return ResponseEntity(userDetailsServiceImpl.getUser(username).toDto(), HttpStatus.OK)
@@ -56,7 +57,7 @@ class UserApiImpl(
         return ResponseEntity(HttpStatus.OK)
     }
 
-    override fun allUsers(): ResponseEntity<List<UserDto>> {
+    override fun allUsers(): ResponseEntity<List<UserDtoNoPass>> {
         val username = SecurityContextHolder.getContext().authentication.name
         LOG.info("All users $username")
         return ResponseEntity(userDetailsServiceImpl.getAllUsers().map { it.toDto() }, HttpStatus.OK)
@@ -84,10 +85,9 @@ class UserApiImpl(
     companion object {
         private val LOG = LoggerFactory.getLogger(UserApiImpl::class.java)
 
-        private fun User.toDto(): UserDto = UserDto(
+        private fun User.toDto(): UserDtoNoPass = UserDtoNoPass(
             id,
             username,
-            password,
         )
 
         private fun JwtTokens.toDto(): JwtTokensDto = JwtTokensDto(accessToken, refreshToken)

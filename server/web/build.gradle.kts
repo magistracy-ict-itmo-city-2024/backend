@@ -25,6 +25,7 @@ dependencies {
 
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springdoc:springdoc-openapi-ui:1.7.0")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.13.3")
 
     testFixturesApi(testFixtures(project(":application")))
 

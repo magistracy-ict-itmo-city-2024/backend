@@ -7,9 +7,10 @@ import org.springframework.web.bind.annotation.*
 import ru.citycheck.core.api.v0.dto.user.JwtTokensDto
 import ru.citycheck.core.api.v0.dto.user.RoleDto
 import ru.citycheck.core.api.v0.dto.user.UserDto
+import ru.citycheck.core.api.v0.dto.user.UserDtoNoPass
 
 @RequestMapping(
-    value = ["/v0/users"],
+    value = ["/api/v0/users"],
     produces = [APPLICATION_JSON_VALUE],
 )
 @RestController
@@ -24,14 +25,14 @@ interface UserApi {
     fun refresh(@RequestBody refreshToken: String): ResponseEntity<JwtTokensDto>
 
     @GetMapping("/me")
-    fun me(): ResponseEntity<UserDto>
+    fun me(): ResponseEntity<UserDtoNoPass>
 
     @GetMapping("/disable")
     fun disable(): ResponseEntity<String>
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/allUsers")
-    fun allUsers(): ResponseEntity<List<UserDto>>
+    fun allUsers(): ResponseEntity<List<UserDtoNoPass>>
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping("/add_role")

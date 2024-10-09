@@ -10,11 +10,12 @@ CREATE TABLE IF NOT EXISTS issue (
     status           VARCHAR(32),
     priority         VARCHAR(32),
     category_id      BIGINT REFERENCES category(id),
-    reporter_id      BIGINT REFERENCES users(id),
+    reporter_id      VARCHAR(64),
     assignee_id      BIGINT REFERENCES users(id),
     created_at       BIGINT,
     updated_at       BIGINT,
     document_path    VARCHAR(1024),
+    content_type     VARCHAR(64),
     actuality_status VARCHAR(32),
     location_lat     DOUBLE PRECISION,
     location_lon     DOUBLE PRECISION

@@ -1,22 +1,27 @@
 package ru.citycheck.core.web.v0.issue.converter
 
+import org.springframework.web.multipart.MultipartFile
 import ru.citycheck.core.api.v0.dto.issue.IssueDto
 import ru.citycheck.core.api.v0.dto.issue.LocationDto
 import ru.citycheck.core.domain.model.issue.Issue
 import ru.citycheck.core.domain.model.issue.Location
 
-fun IssueDto.toModel() = Issue(
+fun IssueDto.toModel(
+    file: MultipartFile? = null,
+    reporterId: String? = null,
+) = Issue(
     id = id,
     description = description,
-    status = status.toModel(),
-    priority = priority.toModel(),
+    status = status?.toModel() ?: Issue.Status.OPEN,
+    priority = priority?.toModel() ?: Issue.Priority.LOW,
     categoryId = categoryId,
-    reporterId = reporterId,
+    reporterId = this.reporterId ?: (reporterId!!),
     assigneeId = assigneeId,
-    createdAt = createdAt,
-    updatedAt = updatedAt,
+    createdAt = createdAt ?: 0,
+    updatedAt = updatedAt ?: 0,
     documentPath = documentPath,
-    actualityStatus = actualityStatus.toModel(),
+    contentType = file?.contentType ?: contentType,
+    actualityStatus = actualityStatus?.toModel() ?: Issue.ActualStatus.ACTUAL,
     location = location.toModel(),
 )
 
@@ -42,6 +47,7 @@ fun Issue.toDto() = IssueDto(
     createdAt = createdAt,
     updatedAt = updatedAt,
     documentPath = documentPath,
+    contentType = contentType,
     actualityStatus = actualityStatus.toDto(),
     location = location.toDto(),
 )

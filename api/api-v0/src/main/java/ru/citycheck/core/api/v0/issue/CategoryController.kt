@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*
 import ru.citycheck.core.api.v0.dto.issue.CategoryDto
 
 @RequestMapping(
-    value = ["/v0/categories"],
+    value = ["/api/v0/categories"],
     produces = ["application/json"],
 )
 @RestController

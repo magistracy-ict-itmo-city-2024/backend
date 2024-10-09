@@ -11,3 +11,9 @@ data class UserDto(
         return "UserDto(id=$id, username=$username, password=\"HIDDEN\")"
     }
 }
+
+data class UserDtoNoPass(
+    val id: Long? = null,
+    val username: String,
+)
+

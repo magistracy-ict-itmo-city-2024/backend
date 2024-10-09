@@ -1,18 +1,19 @@
 package ru.citycheck.core.api.v0.dto.issue
 
 data class IssueDto(
-    val id: Long?,
+    val id: Long? = null,
     val description: String,
-    val status: StatusDto,
-    val priority: PriorityDto,
     val categoryId: Long,
-    val reporterId: Long,
-    val assigneeId: Long,
-    val createdAt: Long,
-    val updatedAt: Long,
-    val documentPath: String?,
-    val actualityStatus: ActualStatusDto,
     val location: LocationDto,
+    val status: StatusDto? = null,
+    val priority: PriorityDto? = null,
+    val reporterId: String? = null,
+    val assigneeId: Long? = null,
+    val createdAt: Long? = null,
+    val updatedAt: Long? = null,
+    val documentPath: String? = null,
+    val contentType: String? = null,
+    val actualityStatus: ActualStatusDto? = null,
 ) {
     enum class StatusDto {
         OPEN,

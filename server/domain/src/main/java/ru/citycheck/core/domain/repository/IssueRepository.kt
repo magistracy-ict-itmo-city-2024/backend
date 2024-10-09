@@ -8,5 +8,5 @@ interface IssueRepository {
     fun deleteIssue(issueId: Long)
 
     fun getIssue(issueId: Long): Issue?
-    fun getIssues(): List<Issue>
+    fun getIssues(userUuid: String? = null): List<Issue>
 }
