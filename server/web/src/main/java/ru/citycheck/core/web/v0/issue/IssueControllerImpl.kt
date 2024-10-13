@@ -6,12 +6,14 @@ import org.springframework.web.multipart.MultipartFile
 import ru.citycheck.core.api.v0.dto.issue.IssueDto
 import ru.citycheck.core.api.v0.issue.IssueController
 import ru.citycheck.core.application.service.issue.IssueService
+import ru.citycheck.core.application.service.issue.MlService
 import ru.citycheck.core.web.v0.issue.converter.toDto
 import ru.citycheck.core.web.v0.issue.converter.toModel
 
 @Controller
 class IssueControllerImpl(
     private val issueService: IssueService,
+    private val mlService: MlService,
 ) : IssueController {
     override fun createIssue(
         file: MultipartFile,
@@ -55,5 +57,11 @@ class IssueControllerImpl(
         return ResponseEntity.ok()
             .header("Content-Type", issue.contentType)
             .body(file)
+    }
+
+    override fun triggerPrediction(id: Long): ResponseEntity<String> {
+        val issue = issueService.getIssue(id) ?: return ResponseEntity.notFound().build()
+        mlService.getPrediction(issue)
+        return ResponseEntity.ok("")
     }
 }

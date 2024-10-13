@@ -47,7 +47,7 @@ class IssueService(
     }
 
     fun getIssues(userUuid: String? = null): List<Issue> {
-        return issueRepository.getIssues()
+        return issueRepository.getIssues(userUuid)
     }
 
     fun getFile(issueId: Long): ByteArray {

@@ -1,5 +1,6 @@
 package ru.citycheck.core.domain.repository.impl
 
+import org.jooq.Condition
 import org.jooq.DSLContext
 import org.jooq.impl.DSL
 import org.springframework.stereotype.Repository
@@ -48,10 +49,10 @@ class IssueRepositoryImpl(
     }
 
     override fun getIssues(userUuid: String?): List<Issue> {
-        val condition = DSL.trueCondition()
+        var condition: Condition = DSL.trueCondition()
 
         if (userUuid != null) {
-            condition.and(ISSUE.REPORTER_ID.eq(userUuid))
+            condition = condition.and(ISSUE.REPORTER_ID.eq(userUuid))
         }
 
         return dslContext

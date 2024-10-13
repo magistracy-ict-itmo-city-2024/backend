@@ -50,4 +50,9 @@ interface IssueController {
     fun downloadFile(
         @PathVariable id: Long,
     ): ResponseEntity<ByteArray>
+
+    @GetMapping("/trigger_prediction/{id}")
+    fun triggerPrediction(
+        @PathVariable id: Long,
+    ): ResponseEntity<String>
 }

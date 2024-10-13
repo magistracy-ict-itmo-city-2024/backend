@@ -1,5 +1,6 @@
 package ru.citycheck.core.domain
 
+import com.fasterxml.jackson.databind.ObjectMapper
 import org.jobrunr.jobs.mappers.JobMapper
 import org.jobrunr.storage.StorageProvider
 import org.jobrunr.storage.sql.postgres.PostgresStorageProvider
@@ -20,6 +21,7 @@ import org.springframework.stereotype.Component
 import org.springframework.transaction.TransactionDefinition.PROPAGATION_NESTED
 import org.springframework.transaction.TransactionStatus
 import org.springframework.transaction.support.DefaultTransactionDefinition
+import ru.citycheck.core.domain.utils.objectMapperGetter
 import java.time.Clock
 import javax.sql.DataSource
 
@@ -42,6 +44,11 @@ class DomainConfiguration {
     @Bean
     fun clock(): Clock {
         return Clock.systemUTC()
+    }
+
+    @Bean
+    fun objectMapper(): ObjectMapper {
+        return objectMapperGetter
     }
 }
 

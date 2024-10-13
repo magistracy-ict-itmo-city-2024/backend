@@ -26,6 +26,8 @@ class WebSecurityConfig {
             .disable()
             .httpBasic()
             .and()
+            .cors()
+            .and()
             .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter::class.java)
             .sessionManagement { session ->
                 session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)

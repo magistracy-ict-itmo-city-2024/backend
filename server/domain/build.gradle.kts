@@ -34,6 +34,9 @@ dependencies {
     api("org.jetbrains.kotlin:kotlin-reflect")
     api("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     api("org.springframework.boot:spring-boot-starter-security")
+    api("com.fasterxml.jackson.core:jackson-core:2.13.5")
+    api("com.fasterxml.jackson.core:jackson-databind:2.13.5")
+    api("com.fasterxml.jackson.module:jackson-module-kotlin:2.13.5")
 
     implementation("org.jobrunr:jobrunr-spring-boot-2-starter:6.1.1")
     implementation("org.flywaydb:flyway-core")
