@@ -16,7 +16,7 @@ class MlService(
 ) {
     private val httpClient = Dsl.asyncHttpClient()
 
-    fun getPrediction(issue: Issue) {
+    fun getPrediction(issue: Issue): Double {
         val response = httpClient.preparePost(mlUrl)
             .setBody(objectMapper.writeValueAsString(issue))
             .addHeader("Content-Type", "application/json")
@@ -28,6 +28,8 @@ class MlService(
         val predictionResult = objectMapper.readTree(response.responseBodyAsBytes).get("prediction").asDouble()
 
         log.info("Prediction result: $predictionResult")
+
+        return predictionResult
     }
 
     companion object {

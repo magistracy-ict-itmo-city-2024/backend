@@ -26,7 +26,7 @@ dependencies {
     api("io.jsonwebtoken:jjwt-impl:0.11.5")
     api("io.jsonwebtoken:jjwt-jackson:0.11.5")
 
-    implementation("org.jobrunr:jobrunr-spring-boot-2-starter:6.1.1")
+    implementation("org.jobrunr:jobrunr-spring-boot-2-starter:6.3.3")
     implementation("org.asynchttpclient:async-http-client:2.12.3")
 
     testFixturesApi(testFixtures(project(":domain")))

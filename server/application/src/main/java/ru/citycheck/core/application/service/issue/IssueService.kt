@@ -1,11 +1,11 @@
 package ru.citycheck.core.application.service.issue
 
+import org.jobrunr.scheduling.JobScheduler
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import ru.citycheck.core.application.service.issue.files.FileStorageService
 import ru.citycheck.core.domain.model.issue.Issue
 import ru.citycheck.core.domain.repository.IssueRepository
-import java.security.MessageDigest
 import java.time.Clock
 import java.util.UUID
 
@@ -14,6 +14,8 @@ class IssueService(
     private val issueRepository: IssueRepository,
     private val clock: Clock,
     private val fileStorageService: FileStorageService,
+    private val scheduler: JobScheduler,
+    private val mlService: MlService,
 ) {
     fun createIssue(issue: Issue, fileContent: ByteArray): Issue {
         val fileHash = getAttachmentHash()
@@ -25,6 +27,24 @@ class IssueService(
                 createdAt = clock.millis(),
                 updatedAt = clock.millis(),
                 documentPath = filePath,
+            ),
+        ).also { createdIssue ->
+            scheduler.enqueue {
+                setPrediction(createdIssue.id!!)
+            }
+        }
+    }
+
+    fun setPrediction(issueId: Long) {
+        val issue = getIssue(issueId) ?: throw IllegalStateException("Issue not found")
+        val prediction = mlService.getPrediction(issue)
+        issueRepository.updateIssue(
+            issue.copy(
+                actualityStatus = when (prediction) {
+                    in 0.0..0.3 -> Issue.ActualStatus.FAKE
+                    in 0.3..0.7 -> Issue.ActualStatus.NOT_ACTUAL
+                    else -> Issue.ActualStatus.ACTUAL
+                },
             ),
         )
     }

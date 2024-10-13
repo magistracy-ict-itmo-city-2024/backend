@@ -38,7 +38,7 @@ dependencies {
     api("com.fasterxml.jackson.core:jackson-databind:2.13.5")
     api("com.fasterxml.jackson.module:jackson-module-kotlin:2.13.5")
 
-    implementation("org.jobrunr:jobrunr-spring-boot-2-starter:6.1.1")
+    implementation("org.jobrunr:jobrunr-spring-boot-2-starter:6.3.3")
     implementation("org.flywaydb:flyway-core")
 
     runtimeOnly("org.postgresql:postgresql")
