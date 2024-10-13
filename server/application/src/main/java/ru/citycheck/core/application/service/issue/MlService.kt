@@ -23,6 +23,8 @@ class MlService(
             .execute()
             .get()
 
+        log.debug("Response: ${response.responseBody}")
+
         val predictionResult = objectMapper.readTree(response.responseBodyAsBytes).get("prediction").asDouble()
 
         log.info("Prediction result: $predictionResult")
