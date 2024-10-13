@@ -17,8 +17,11 @@ class MlService(
     private val httpClient = Dsl.asyncHttpClient()
 
     fun getPrediction(issue: Issue): Double {
+        val requestBody = objectMapper.writeValueAsString(issue)
+        log.debug(requestBody)
+
         val response = httpClient.preparePost(mlUrl)
-            .setBody(objectMapper.writeValueAsString(issue))
+            .setBody(requestBody)
             .addHeader("Content-Type", "application/json")
             .execute()
             .get()
