@@ -37,6 +37,8 @@ class WebSecurityConfig {
                 "/api/v0/users/auth",
                 "/api/v0/users/refresh",
                 "/api/v0/users/register",
+                "/api/v0/users/sign_in_phone",
+                "/api/v0/users/sign_in_code",
                 "/api/v0/issues",
                 "/api/v0/issues/",
                 "/api/v0/issues/**",

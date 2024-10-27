@@ -10,8 +10,7 @@ data class Issue(
     val assigneeId: Long?,
     val createdAt: Long,
     val updatedAt: Long,
-    val documentPath: String?,
-    val contentType: String?,
+    val issueDocumentId: Long?,
     val actualityStatus: ActualStatus,
     val location: Location,
 ) {

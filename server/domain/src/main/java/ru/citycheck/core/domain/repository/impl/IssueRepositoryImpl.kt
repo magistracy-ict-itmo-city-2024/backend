@@ -73,11 +73,10 @@ class IssueRepositoryImpl(
             assigneeId,
             createdAt,
             updatedAt,
-            documentPath,
-            contentType,
             actualityStatus.name,
             location.lat,
             location.lon,
+            issueDocumentId,
         ).apply { changed(ISSUE.ID, false) }
 
         private fun IssueRecord.toModel() = Issue(
@@ -90,8 +89,7 @@ class IssueRepositoryImpl(
             assigneeId,
             createdAt,
             updatedAt,
-            documentPath,
-            contentType,
+            documentId,
             Issue.ActualStatus.valueOf(actualityStatus),
             Location(
                 locationLat,

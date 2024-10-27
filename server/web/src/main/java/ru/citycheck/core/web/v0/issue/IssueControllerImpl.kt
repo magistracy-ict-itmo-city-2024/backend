@@ -6,6 +6,7 @@ import org.springframework.web.multipart.MultipartFile
 import ru.citycheck.core.api.v0.dto.issue.IssueDto
 import ru.citycheck.core.api.v0.issue.IssueController
 import ru.citycheck.core.application.service.issue.IssueService
+import ru.citycheck.core.application.service.issue.IssueDocumentService
 import ru.citycheck.core.application.service.issue.MlService
 import ru.citycheck.core.web.v0.issue.converter.toDto
 import ru.citycheck.core.web.v0.issue.converter.toModel
@@ -13,6 +14,7 @@ import ru.citycheck.core.web.v0.issue.converter.toModel
 @Controller
 class IssueControllerImpl(
     private val issueService: IssueService,
+    private val issueDocumentService: IssueDocumentService,
     private val mlService: MlService,
 ) : IssueController {
     override fun createIssue(
@@ -20,8 +22,9 @@ class IssueControllerImpl(
         issue: IssueDto,
         reporterId: String,
     ): ResponseEntity<IssueDto> {
-        val newIssue = issueService.createIssue(issue.toModel(file, reporterId), file.bytes)
-        return ResponseEntity.ok(newIssue.toDto())
+        val newIssue = issueService.createIssue(issue.toModel(file, reporterId), file.contentType!!, file.bytes)
+        val issueDocument = issueDocumentService.getIssueDocument(newIssue.id!!)!!
+        return ResponseEntity.ok(newIssue.toDto(issueDocument))
     }
 
     override fun updateIssue(id: Long, issueDto: IssueDto): ResponseEntity<IssueDto> {
@@ -29,7 +32,8 @@ class IssueControllerImpl(
         if (issueService.getIssue(id) == null) return ResponseEntity.notFound().build()
 
         val issue = issueService.updateIssue(issueDto.toModel())
-        return ResponseEntity.ok(issue.toDto())
+        val issueDocument = issueDocumentService.getIssueDocument(issue.id!!)!!
+        return ResponseEntity.ok(issue.toDto(issueDocument))
     }
 
     override fun deleteIssue(id: Long) {
@@ -38,24 +42,37 @@ class IssueControllerImpl(
 
     override fun getIssue(id: Long): ResponseEntity<IssueDto> {
         val issue = issueService.getIssue(id) ?: return ResponseEntity.notFound().build()
-        return ResponseEntity.ok(issue.toDto())
+        val issueDocument = issueDocumentService.getIssueDocument(id) ?: return ResponseEntity.notFound().build()
+        return ResponseEntity.ok(issue.toDto(issueDocument))
     }
 
     override fun getIssues(): ResponseEntity<List<IssueDto>> {
         val issues = issueService.getIssues()
-        return ResponseEntity.ok(issues.map { it.toDto() })
+        val issueDocuments = issueDocumentService.getIssueDocuments(issues.map { it.id!! })
+            .associateBy { it.id }
+        return ResponseEntity.ok(issues.map {
+            val issueDocument = issueDocuments[it.id]!!
+            it.toDto(issueDocument)
+        })
     }
 
     override fun getMyIssues(reporterId: String): ResponseEntity<List<IssueDto>> {
-        return ResponseEntity.ok(issueService.getIssues(reporterId).map { it.toDto() })
+        val issues = issueService.getIssues(reporterId)
+        val issueDocuments = issueDocumentService.getIssueDocuments(issues.map { it.id!! })
+            .associateBy { it.id }
+        return ResponseEntity.ok(issues.map {
+            val issueDocument = issueDocuments[it.id]!!
+            it.toDto(issueDocument)
+        })
     }
 
     override fun downloadFile(id: Long): ResponseEntity<ByteArray> {
         val issue = issueService.getIssue(id) ?: return ResponseEntity.notFound().build()
+        val issueDocument = issueDocumentService.getIssueDocument(issue.issueDocumentId!!) ?: return ResponseEntity.notFound().build()
 
-        val file = issueService.getFile(id)
+        val file = issueService.getFile(issueDocument)
         return ResponseEntity.ok()
-            .header("Content-Type", issue.contentType)
+            .header("Content-Type", issueDocument.contentType)
             .body(file)
     }
 

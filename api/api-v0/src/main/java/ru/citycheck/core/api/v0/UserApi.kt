@@ -1,13 +1,11 @@
 package ru.citycheck.core.api.v0
 
+import io.swagger.v3.oas.annotations.Operation
 import org.springframework.http.MediaType.APPLICATION_JSON_VALUE
 import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
-import ru.citycheck.core.api.v0.dto.user.JwtTokensDto
-import ru.citycheck.core.api.v0.dto.user.RoleDto
-import ru.citycheck.core.api.v0.dto.user.UserDto
-import ru.citycheck.core.api.v0.dto.user.UserDtoNoPass
+import ru.citycheck.core.api.v0.dto.user.*
 
 @RequestMapping(
     value = ["/api/v0/users"],
@@ -41,4 +39,18 @@ interface UserApi {
     @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping("/remove_role")
     fun removeRole(@RequestParam userId: Long, @RequestBody roleDto: RoleDto): ResponseEntity<String>
+
+    @PostMapping("/sign_in_phone")
+    @Operation(
+        summary = "Sign in by phone. Mocked. Used to create user",
+        description = "Sign in by phone",
+    )
+    fun signInPhone(@RequestBody phone: Phone): ResponseEntity<Phone>
+
+    @PostMapping("/sign_in_code")
+    @Operation(
+        summary = "Sign in by code. Mocked. Used to get JWT tokens by any code",
+        description = "Sign in by code",
+    )
+    fun signInCode(@RequestBody phoneAndCode: PhoneAndCode): ResponseEntity<JwtTokensDto>
 }

@@ -4,6 +4,7 @@ import org.springframework.web.multipart.MultipartFile
 import ru.citycheck.core.api.v0.dto.issue.IssueDto
 import ru.citycheck.core.api.v0.dto.issue.LocationDto
 import ru.citycheck.core.domain.model.issue.Issue
+import ru.citycheck.core.domain.model.issue.IssueDocument
 import ru.citycheck.core.domain.model.issue.Location
 
 fun IssueDto.toModel(
@@ -19,8 +20,7 @@ fun IssueDto.toModel(
     assigneeId = assigneeId,
     createdAt = createdAt ?: 0,
     updatedAt = updatedAt ?: 0,
-    documentPath = documentPath,
-    contentType = file?.contentType ?: contentType,
+    issueDocumentId = null,
     actualityStatus = actualityStatus?.toModel() ?: Issue.ActualStatus.ACTUAL,
     location = location.toModel(),
 )
@@ -36,7 +36,7 @@ fun LocationDto.toModel() = Location(
     lon = lon,
 )
 
-fun Issue.toDto() = IssueDto(
+fun Issue.toDto(issueDocument: IssueDocument) = IssueDto(
     id = id,
     description = description,
     status = status.toDto(),
@@ -46,8 +46,8 @@ fun Issue.toDto() = IssueDto(
     assigneeId = assigneeId,
     createdAt = createdAt,
     updatedAt = updatedAt,
-    documentPath = documentPath,
-    contentType = contentType,
+    documentPath = issueDocument.documentPath,
+    contentType = issueDocument.contentType,
     actualityStatus = actualityStatus.toDto(),
     location = location.toDto(),
 )

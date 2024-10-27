@@ -13,7 +13,7 @@ import org.jooq.Identity;
 import org.jooq.Index;
 import org.jooq.Name;
 import org.jooq.Record;
-import org.jooq.Row14;
+import org.jooq.Row13;
 import org.jooq.Schema;
 import org.jooq.Table;
 import org.jooq.TableField;
@@ -96,16 +96,6 @@ public class Issue extends TableImpl<IssueRecord> {
     public final TableField<IssueRecord, Long> UPDATED_AT = createField(DSL.name("updated_at"), SQLDataType.BIGINT, this, "");
 
     /**
-     * The column <code>public.issue.document_path</code>.
-     */
-    public final TableField<IssueRecord, String> DOCUMENT_PATH = createField(DSL.name("document_path"), SQLDataType.VARCHAR(1024), this, "");
-
-    /**
-     * The column <code>public.issue.content_type</code>.
-     */
-    public final TableField<IssueRecord, String> CONTENT_TYPE = createField(DSL.name("content_type"), SQLDataType.VARCHAR(64), this, "");
-
-    /**
      * The column <code>public.issue.actuality_status</code>.
      */
     public final TableField<IssueRecord, String> ACTUALITY_STATUS = createField(DSL.name("actuality_status"), SQLDataType.VARCHAR(32), this, "");
@@ -119,6 +109,11 @@ public class Issue extends TableImpl<IssueRecord> {
      * The column <code>public.issue.location_lon</code>.
      */
     public final TableField<IssueRecord, Double> LOCATION_LON = createField(DSL.name("location_lon"), SQLDataType.DOUBLE, this, "");
+
+    /**
+     * The column <code>public.issue.document_id</code>.
+     */
+    public final TableField<IssueRecord, Long> DOCUMENT_ID = createField(DSL.name("document_id"), SQLDataType.BIGINT, this, "");
 
     private Issue(Name alias, Table<IssueRecord> aliased) {
         this(alias, aliased, null);
@@ -180,11 +175,12 @@ public class Issue extends TableImpl<IssueRecord> {
 
     @Override
     public List<ForeignKey<IssueRecord, ?>> getReferences() {
-        return Arrays.<ForeignKey<IssueRecord, ?>>asList(Keys.ISSUE__ISSUE_CATEGORY_ID_FKEY, Keys.ISSUE__ISSUE_ASSIGNEE_ID_FKEY);
+        return Arrays.<ForeignKey<IssueRecord, ?>>asList(Keys.ISSUE__ISSUE_CATEGORY_ID_FKEY, Keys.ISSUE__ISSUE_ASSIGNEE_ID_FKEY, Keys.ISSUE__ISSUE_DOCUMENT_ID_FKEY);
     }
 
     private transient Category _category;
     private transient Users _users;
+    private transient IssueDocument _issueDocument;
 
     public Category category() {
         if (_category == null)
@@ -198,6 +194,13 @@ public class Issue extends TableImpl<IssueRecord> {
             _users = new Users(this, Keys.ISSUE__ISSUE_ASSIGNEE_ID_FKEY);
 
         return _users;
+    }
+
+    public IssueDocument issueDocument() {
+        if (_issueDocument == null)
+            _issueDocument = new IssueDocument(this, Keys.ISSUE__ISSUE_DOCUMENT_ID_FKEY);
+
+        return _issueDocument;
     }
 
     @Override
@@ -227,11 +230,11 @@ public class Issue extends TableImpl<IssueRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row14 type methods
+    // Row13 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row14<Long, String, String, String, Long, String, Long, Long, Long, String, String, String, Double, Double> fieldsRow() {
-        return (Row14) super.fieldsRow();
+    public Row13<Long, String, String, String, Long, String, Long, Long, Long, String, Double, Double, Long> fieldsRow() {
+        return (Row13) super.fieldsRow();
     }
 }

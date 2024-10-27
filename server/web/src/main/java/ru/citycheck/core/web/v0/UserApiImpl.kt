@@ -4,12 +4,12 @@ import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.security.core.context.SecurityContextHolder
+import org.springframework.security.core.userdetails.UsernameNotFoundException
 import org.springframework.stereotype.Controller
 import ru.citycheck.core.api.v0.UserApi
-import ru.citycheck.core.api.v0.dto.user.JwtTokensDto
-import ru.citycheck.core.api.v0.dto.user.RoleDto
-import ru.citycheck.core.api.v0.dto.user.UserDto
-import ru.citycheck.core.api.v0.dto.user.UserDtoNoPass
+import ru.citycheck.core.api.v0.dto.user.*
+import ru.citycheck.core.application.phone.utils.RussianPhoneNumberFormatter
+import ru.citycheck.core.application.phone.utils.RussianPhoneNumberValidator
 import ru.citycheck.core.application.service.auth.AuthService
 import ru.citycheck.core.application.service.auth.UserDetailsServiceImpl
 import ru.citycheck.core.application.service.auth.models.JwtTokens
@@ -78,6 +78,43 @@ class UserApiImpl(
             Role.valueOf(roleDto.role.name),
         )
         return ResponseEntity(HttpStatus.OK)
+    }
+
+    override fun signInPhone(phone: Phone): ResponseEntity<Phone> {
+        LOG.info("Sign in phone $phone")
+
+        if (!RussianPhoneNumberValidator.isValidRussianPhoneNumber(phone.phone)) {
+            return ResponseEntity(HttpStatus.BAD_REQUEST)
+        }
+
+        val number = RussianPhoneNumberFormatter.formatRussianPhoneNumber(phone.phone)
+
+        try {
+            userDetailsServiceImpl.getUser(number)
+        } catch (_: UsernameNotFoundException) {
+            LOG.info("User not found")
+            userDetailsServiceImpl.saveUser(
+                userDetailsServiceImpl.createUserModel(
+                    null,
+                    number,
+                    "",
+                )
+            )
+        }
+
+        return ResponseEntity(phone, HttpStatus.OK)
+    }
+
+    override fun signInCode(phoneAndCode: PhoneAndCode): ResponseEntity<JwtTokensDto> {
+        if (!RussianPhoneNumberValidator.isValidRussianPhoneNumber(phoneAndCode.phone)) {
+            return ResponseEntity(HttpStatus.BAD_REQUEST)
+        }
+
+        val number = RussianPhoneNumberFormatter.formatRussianPhoneNumber(phoneAndCode.phone)
+
+        LOG.info("Sign in code $phoneAndCode")
+        val jwt = authService.login(number, "")
+        return ResponseEntity(jwt.toDto(), HttpStatus.OK)
     }
 
     private fun UserDto.toModel(): User = userDetailsServiceImpl.createUserModel(id, username, password)

@@ -21,6 +21,11 @@ public class Sequences {
     public static final Sequence<Long> CATEGORY_ID_SEQ = Internal.createSequence("category_id_seq", Public.PUBLIC, SQLDataType.BIGINT.nullable(false), null, null, null, null, false, null);
 
     /**
+     * The sequence <code>public.issue_document_id_seq</code>
+     */
+    public static final Sequence<Long> ISSUE_DOCUMENT_ID_SEQ = Internal.createSequence("issue_document_id_seq", Public.PUBLIC, SQLDataType.BIGINT.nullable(false), null, null, null, null, false, null);
+
+    /**
      * The sequence <code>public.issue_id_seq</code>
      */
     public static final Sequence<Long> ISSUE_ID_SEQ = Internal.createSequence("issue_id_seq", Public.PUBLIC, SQLDataType.BIGINT.nullable(false), null, null, null, null, false, null);

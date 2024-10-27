@@ -30,7 +30,7 @@ interface IssueController {
     @PutMapping("/{id}")
     @Operation(
         summary = "Update issue",
-        description = "Update issue available only for admin",
+        description = "Update issue available only for admin. File data IS IMMUTABLE.",
     )
     fun updateIssue(
         @PathVariable id: Long,
