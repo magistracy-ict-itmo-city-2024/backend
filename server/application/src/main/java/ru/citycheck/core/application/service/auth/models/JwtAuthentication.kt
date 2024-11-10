@@ -6,6 +6,7 @@ import ru.citycheck.core.domain.model.auth.Role
 
 class JwtAuthentication(
     private val name: String,
+    val userId: Long?,
     private val authorities: Set<Role>,
     private val credentials: Any?,
     private val details: UserDetails?,

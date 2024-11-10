@@ -1,6 +1,7 @@
 package ru.citycheck.core.web.v0.issue
 
 import org.springframework.http.ResponseEntity
+import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Controller
 import org.springframework.web.multipart.MultipartFile
 import ru.citycheck.core.api.v0.dto.issue.IssueDto
@@ -8,6 +9,7 @@ import ru.citycheck.core.api.v0.issue.IssueController
 import ru.citycheck.core.application.service.issue.IssueService
 import ru.citycheck.core.application.service.issue.IssueDocumentService
 import ru.citycheck.core.application.service.issue.MlService
+import ru.citycheck.core.web.v0.SecurityHelper
 import ru.citycheck.core.web.v0.issue.converter.toDto
 import ru.citycheck.core.web.v0.issue.converter.toModel
 
@@ -16,12 +18,14 @@ class IssueControllerImpl(
     private val issueService: IssueService,
     private val issueDocumentService: IssueDocumentService,
     private val mlService: MlService,
+    private val securityHelper: SecurityHelper,
 ) : IssueController {
     override fun createIssue(
         file: MultipartFile,
         issue: IssueDto,
-        reporterId: String,
     ): ResponseEntity<IssueDto> {
+        val reporterId = securityHelper.getCurrentUser().id!!
+
         val newIssue = issueService.createIssue(issue.toModel(file, reporterId), file.contentType!!, file.bytes)
         val issueDocument = issueDocumentService.getIssueDocument(newIssue.id!!)!!
         return ResponseEntity.ok(newIssue.toDto(issueDocument))
@@ -56,8 +60,10 @@ class IssueControllerImpl(
         })
     }
 
-    override fun getMyIssues(reporterId: String): ResponseEntity<List<IssueDto>> {
-        val issues = issueService.getIssues(reporterId)
+    override fun getMyIssues(statusDto: IssueDto.StatusDto?): ResponseEntity<List<IssueDto>> {
+        val reporterId = securityHelper.getCurrentUser().id!!
+
+        val issues = issueService.getIssues(reporterId, statusDto?.toModel())
         val issueDocuments = issueDocumentService.getIssueDocuments(issues.map { it.id!! })
             .associateBy { it.id }
         return ResponseEntity.ok(issues.map {

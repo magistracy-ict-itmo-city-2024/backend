@@ -76,11 +76,6 @@ public class Issue extends TableImpl<IssueRecord> {
     public final TableField<IssueRecord, Long> CATEGORY_ID = createField(DSL.name("category_id"), SQLDataType.BIGINT, this, "");
 
     /**
-     * The column <code>public.issue.reporter_id</code>.
-     */
-    public final TableField<IssueRecord, String> REPORTER_ID = createField(DSL.name("reporter_id"), SQLDataType.VARCHAR(64), this, "");
-
-    /**
      * The column <code>public.issue.assignee_id</code>.
      */
     public final TableField<IssueRecord, Long> ASSIGNEE_ID = createField(DSL.name("assignee_id"), SQLDataType.BIGINT, this, "");
@@ -114,6 +109,11 @@ public class Issue extends TableImpl<IssueRecord> {
      * The column <code>public.issue.document_id</code>.
      */
     public final TableField<IssueRecord, Long> DOCUMENT_ID = createField(DSL.name("document_id"), SQLDataType.BIGINT, this, "");
+
+    /**
+     * The column <code>public.issue.reporter_id</code>.
+     */
+    public final TableField<IssueRecord, Long> REPORTER_ID = createField(DSL.name("reporter_id"), SQLDataType.BIGINT.nullable(false), this, "");
 
     private Issue(Name alias, Table<IssueRecord> aliased) {
         this(alias, aliased, null);
@@ -155,7 +155,7 @@ public class Issue extends TableImpl<IssueRecord> {
 
     @Override
     public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.ISSUE_ASSIGNEE_ID_IDX, Indexes.ISSUE_REPORTER_ID_IDX, Indexes.ISSUE_STATUS_IDX);
+        return Arrays.<Index>asList(Indexes.ISSUE_ASSIGNEE_ID_IDX, Indexes.ISSUE_STATUS_IDX);
     }
 
     @Override
@@ -175,12 +175,13 @@ public class Issue extends TableImpl<IssueRecord> {
 
     @Override
     public List<ForeignKey<IssueRecord, ?>> getReferences() {
-        return Arrays.<ForeignKey<IssueRecord, ?>>asList(Keys.ISSUE__ISSUE_CATEGORY_ID_FKEY, Keys.ISSUE__ISSUE_ASSIGNEE_ID_FKEY, Keys.ISSUE__ISSUE_DOCUMENT_ID_FKEY);
+        return Arrays.<ForeignKey<IssueRecord, ?>>asList(Keys.ISSUE__ISSUE_CATEGORY_ID_FKEY, Keys.ISSUE__ISSUE_ASSIGNEE_ID_FKEY, Keys.ISSUE__ISSUE_DOCUMENT_ID_FKEY, Keys.ISSUE__ISSUE_REPORTER_ID_FKEY);
     }
 
     private transient Category _category;
-    private transient Users _users;
+    private transient Users _issueAssigneeIdFkey;
     private transient IssueDocument _issueDocument;
+    private transient Users _issueReporterIdFkey;
 
     public Category category() {
         if (_category == null)
@@ -189,11 +190,11 @@ public class Issue extends TableImpl<IssueRecord> {
         return _category;
     }
 
-    public Users users() {
-        if (_users == null)
-            _users = new Users(this, Keys.ISSUE__ISSUE_ASSIGNEE_ID_FKEY);
+    public Users issueAssigneeIdFkey() {
+        if (_issueAssigneeIdFkey == null)
+            _issueAssigneeIdFkey = new Users(this, Keys.ISSUE__ISSUE_ASSIGNEE_ID_FKEY);
 
-        return _users;
+        return _issueAssigneeIdFkey;
     }
 
     public IssueDocument issueDocument() {
@@ -201,6 +202,13 @@ public class Issue extends TableImpl<IssueRecord> {
             _issueDocument = new IssueDocument(this, Keys.ISSUE__ISSUE_DOCUMENT_ID_FKEY);
 
         return _issueDocument;
+    }
+
+    public Users issueReporterIdFkey() {
+        if (_issueReporterIdFkey == null)
+            _issueReporterIdFkey = new Users(this, Keys.ISSUE__ISSUE_REPORTER_ID_FKEY);
+
+        return _issueReporterIdFkey;
     }
 
     @Override
@@ -234,7 +242,7 @@ public class Issue extends TableImpl<IssueRecord> {
     // -------------------------------------------------------------------------
 
     @Override
-    public Row13<Long, String, String, String, Long, String, Long, Long, Long, String, Double, Double, Long> fieldsRow() {
+    public Row13<Long, String, String, String, Long, Long, Long, Long, String, Double, Double, Long, Long> fieldsRow() {
         return (Row13) super.fieldsRow();
     }
 }

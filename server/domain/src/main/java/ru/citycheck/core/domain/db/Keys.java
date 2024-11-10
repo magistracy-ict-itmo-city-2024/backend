@@ -50,4 +50,5 @@ public class Keys {
     public static final ForeignKey<IssueRecord, UsersRecord> ISSUE__ISSUE_ASSIGNEE_ID_FKEY = Internal.createForeignKey(Issue.ISSUE, DSL.name("issue_assignee_id_fkey"), new TableField[] { Issue.ISSUE.ASSIGNEE_ID }, Keys.USERS_PKEY, new TableField[] { Users.USERS.ID }, true);
     public static final ForeignKey<IssueRecord, CategoryRecord> ISSUE__ISSUE_CATEGORY_ID_FKEY = Internal.createForeignKey(Issue.ISSUE, DSL.name("issue_category_id_fkey"), new TableField[] { Issue.ISSUE.CATEGORY_ID }, Keys.CATEGORY_PKEY, new TableField[] { Category.CATEGORY.ID }, true);
     public static final ForeignKey<IssueRecord, IssueDocumentRecord> ISSUE__ISSUE_DOCUMENT_ID_FKEY = Internal.createForeignKey(Issue.ISSUE, DSL.name("issue_document_id_fkey"), new TableField[] { Issue.ISSUE.DOCUMENT_ID }, Keys.ISSUE_DOCUMENT_PKEY, new TableField[] { IssueDocument.ISSUE_DOCUMENT.ID }, true);
+    public static final ForeignKey<IssueRecord, UsersRecord> ISSUE__ISSUE_REPORTER_ID_FKEY = Internal.createForeignKey(Issue.ISSUE, DSL.name("issue_reporter_id_fkey"), new TableField[] { Issue.ISSUE.REPORTER_ID }, Keys.USERS_PKEY, new TableField[] { Users.USERS.ID }, true);
 }

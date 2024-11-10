@@ -1,0 +1,3 @@
+ALTER TABLE issue DROP COLUMN reporter_id;
+
+ALTER TABLE issue ADD COLUMN reporter_id BIGINT NOT NULL REFERENCES "users"(id) ON DELETE CASCADE;

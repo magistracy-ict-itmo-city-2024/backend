@@ -28,7 +28,6 @@ public class Indexes {
 
     public static final Index FLYWAY_SCHEMA_HISTORY_S_IDX = Internal.createIndex(DSL.name("flyway_schema_history_s_idx"), FlywaySchemaHistory.FLYWAY_SCHEMA_HISTORY, new OrderField[] { FlywaySchemaHistory.FLYWAY_SCHEMA_HISTORY.SUCCESS }, false);
     public static final Index ISSUE_ASSIGNEE_ID_IDX = Internal.createIndex(DSL.name("issue_assignee_id_idx"), Issue.ISSUE, new OrderField[] { Issue.ISSUE.ASSIGNEE_ID }, false);
-    public static final Index ISSUE_REPORTER_ID_IDX = Internal.createIndex(DSL.name("issue_reporter_id_idx"), Issue.ISSUE, new OrderField[] { Issue.ISSUE.REPORTER_ID }, false);
     public static final Index ISSUE_STATUS_IDX = Internal.createIndex(DSL.name("issue_status_idx"), Issue.ISSUE, new OrderField[] { Issue.ISSUE.STATUS }, false);
     public static final Index JWT_TOKENS__EXPIRATION_TS__IDX = Internal.createIndex(DSL.name("jwt_tokens__expiration_ts__idx"), JwtTokens.JWT_TOKENS, new OrderField[] { JwtTokens.JWT_TOKENS.EXPIRATION_TS }, false);
     public static final Index JWT_TOKENS__TOKEN__IDX = Internal.createIndex(DSL.name("jwt_tokens__token__idx"), JwtTokens.JWT_TOKENS, new OrderField[] { JwtTokens.JWT_TOKENS.JWT_TOKEN }, false);

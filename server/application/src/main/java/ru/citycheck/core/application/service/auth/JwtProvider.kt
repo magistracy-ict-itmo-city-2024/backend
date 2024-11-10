@@ -43,6 +43,7 @@ class JwtProvider(
                 .setExpiration(accessExpiration)
                 .signWith(jwtAccessSecret)
                 .claim("roles", user.roles)
+                .claim("userId", user.id!!)
                 .compact(),
             accessExpirationInstant.toEpochMilli(),
             user.id!!,

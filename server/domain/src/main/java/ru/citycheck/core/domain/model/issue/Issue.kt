@@ -6,7 +6,7 @@ data class Issue(
     val status: Status,
     val priority: Priority,
     val categoryId: Long,
-    val reporterId: String,
+    val reporterId: Long,
     val assigneeId: Long?,
     val createdAt: Long,
     val updatedAt: Long,

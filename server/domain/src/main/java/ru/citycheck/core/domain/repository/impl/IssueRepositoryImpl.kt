@@ -48,11 +48,15 @@ class IssueRepositoryImpl(
             ?.toModel()
     }
 
-    override fun getIssues(userUuid: String?): List<Issue> {
+    override fun getIssues(userUuid: Long?, status: Issue.Status?): List<Issue> {
         var condition: Condition = DSL.trueCondition()
 
         if (userUuid != null) {
             condition = condition.and(ISSUE.REPORTER_ID.eq(userUuid))
+        }
+
+        if (status != null) {
+            condition = condition.and(ISSUE.STATUS.eq(status.name))
         }
 
         return dslContext
@@ -69,7 +73,6 @@ class IssueRepositoryImpl(
             status.name,
             priority.name,
             categoryId,
-            reporterId,
             assigneeId,
             createdAt,
             updatedAt,
@@ -77,6 +80,7 @@ class IssueRepositoryImpl(
             location.lat,
             location.lon,
             issueDocumentId,
+            reporterId,
         ).apply { changed(ISSUE.ID, false) }
 
         private fun IssueRecord.toModel() = Issue(

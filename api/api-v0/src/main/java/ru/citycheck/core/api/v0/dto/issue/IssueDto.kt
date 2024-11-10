@@ -7,7 +7,7 @@ data class IssueDto(
     val location: LocationDto,
     val status: StatusDto? = null,
     val priority: PriorityDto? = null,
-    val reporterId: String? = null,
+    val reporterId: Long? = null,
     val assigneeId: Long? = null,
     val createdAt: Long? = null,
     val updatedAt: Long? = null,

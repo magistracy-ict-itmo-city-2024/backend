@@ -20,10 +20,10 @@ interface IssueController {
         summary = "Create issue",
         description = "Create issue from file and issue dto",
     )
+    @PreAuthorize("isAuthenticated()")
     fun createIssue(
         @RequestParam("file") file: MultipartFile,
         @RequestParam("issue") issue: IssueDto,
-        @RequestHeader("X-User-UUID") reporterId: String,
     ): ResponseEntity<IssueDto>
 
     @PreAuthorize("hasAuthority('ADMIN')")
@@ -69,8 +69,9 @@ interface IssueController {
         summary = "Get my issues",
         description = "Get my issues by X-User-UUID",
     )
+    @PreAuthorize("isAuthenticated()")
     fun getMyIssues(
-        @RequestHeader("X-User-UUID") reporterId: String,
+        @RequestParam("status") statusDto: IssueDto.StatusDto? = null,
     ): ResponseEntity<List<IssueDto>>
 
     @GetMapping("/{id}/downloadFile")

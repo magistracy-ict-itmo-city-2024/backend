@@ -9,14 +9,14 @@ import ru.citycheck.core.domain.model.issue.Location
 
 fun IssueDto.toModel(
     file: MultipartFile? = null,
-    reporterId: String? = null,
+    reporterId: Long? = null,
 ) = Issue(
     id = id,
     description = description,
     status = status?.toModel() ?: Issue.Status.OPEN,
     priority = priority?.toModel() ?: Issue.Priority.LOW,
     categoryId = categoryId,
-    reporterId = this.reporterId ?: (reporterId!!),
+    reporterId = this.reporterId ?: reporterId!!,
     assigneeId = assigneeId,
     createdAt = createdAt ?: 0,
     updatedAt = updatedAt ?: 0,

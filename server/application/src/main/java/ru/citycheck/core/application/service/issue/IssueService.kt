@@ -97,8 +97,8 @@ class IssueService(
         return issueRepository.getIssue(issueId)
     }
 
-    fun getIssues(userUuid: String? = null): List<Issue> {
-        return issueRepository.getIssues(userUuid)
+    fun getIssues(userId: Long? = null, status: Issue.Status? = null): List<Issue> {
+        return issueRepository.getIssues(userId, status)
     }
 
     fun getFile(issueDocument: IssueDocument): ByteArray {

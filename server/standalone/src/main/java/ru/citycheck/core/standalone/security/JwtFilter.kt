@@ -45,6 +45,11 @@ class JwtFilter(
 
         private fun Claims.toAuthentication(): JwtAuthentication = JwtAuthentication(
             subject,
+            userId = try {
+                get("id") as Long?
+            } catch (_: Exception) {
+                (get("id") as? Int?)?.toLong()
+            },
             json.readValue(get("roles").toString(),  object : TypeReference<Set<Role>>() { }),
             null,
             null,
