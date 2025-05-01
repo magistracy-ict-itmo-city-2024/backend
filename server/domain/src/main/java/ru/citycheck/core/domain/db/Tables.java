@@ -8,6 +8,7 @@ import ru.citycheck.core.domain.db.tables.Category;
 import ru.citycheck.core.domain.db.tables.FlywaySchemaHistory;
 import ru.citycheck.core.domain.db.tables.Issue;
 import ru.citycheck.core.domain.db.tables.IssueDocument;
+import ru.citycheck.core.domain.db.tables.IssueVoiceDescription;
 import ru.citycheck.core.domain.db.tables.JwtTokens;
 import ru.citycheck.core.domain.db.tables.UserRoles;
 import ru.citycheck.core.domain.db.tables.Users;
@@ -38,6 +39,11 @@ public class Tables {
      * The table <code>public.issue_document</code>.
      */
     public static final IssueDocument ISSUE_DOCUMENT = IssueDocument.ISSUE_DOCUMENT;
+
+    /**
+     * The table <code>public.issue_voice_description</code>.
+     */
+    public static final IssueVoiceDescription ISSUE_VOICE_DESCRIPTION = IssueVoiceDescription.ISSUE_VOICE_DESCRIPTION;
 
     /**
      * The table <code>public.jwt_tokens</code>.

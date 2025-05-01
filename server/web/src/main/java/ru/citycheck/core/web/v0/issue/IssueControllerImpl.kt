@@ -1,13 +1,14 @@
 package ru.citycheck.core.web.v0.issue
 
 import org.springframework.http.ResponseEntity
-import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Controller
 import org.springframework.web.multipart.MultipartFile
 import ru.citycheck.core.api.v0.dto.issue.IssueDto
 import ru.citycheck.core.api.v0.issue.IssueController
-import ru.citycheck.core.application.service.issue.IssueService
+import ru.citycheck.core.application.model.FileData
 import ru.citycheck.core.application.service.issue.IssueDocumentService
+import ru.citycheck.core.application.service.issue.IssueService
+import ru.citycheck.core.application.service.issue.IssueVoiceDescriptionService
 import ru.citycheck.core.application.service.issue.MlService
 import ru.citycheck.core.web.v0.SecurityHelper
 import ru.citycheck.core.web.v0.issue.converter.toDto
@@ -17,16 +18,22 @@ import ru.citycheck.core.web.v0.issue.converter.toModel
 class IssueControllerImpl(
     private val issueService: IssueService,
     private val issueDocumentService: IssueDocumentService,
+    private val issueVoiceDescriptionService: IssueVoiceDescriptionService,
     private val mlService: MlService,
     private val securityHelper: SecurityHelper,
 ) : IssueController {
     override fun createIssue(
         file: MultipartFile,
         issue: IssueDto,
+        audioDescription: MultipartFile?,
     ): ResponseEntity<IssueDto> {
         val reporterId = securityHelper.getCurrentUser().id!!
 
-        val newIssue = issueService.createIssue(issue.toModel(file, reporterId), file.contentType!!, file.bytes)
+        val newIssue = issueService.createIssue(
+            issue.toModel(reporterId),
+            FileData(file.contentType!!, file.bytes),
+            audioDescription?.let { FileData(it.contentType!!, it.bytes) })
+
         val issueDocument = issueDocumentService.getIssueDocument(newIssue.id!!)!!
         return ResponseEntity.ok(newIssue.toDto(issueDocument))
     }
@@ -74,9 +81,23 @@ class IssueControllerImpl(
 
     override fun downloadFile(id: Long): ResponseEntity<ByteArray> {
         val issue = issueService.getIssue(id) ?: return ResponseEntity.notFound().build()
-        val issueDocument = issueDocumentService.getIssueDocument(issue.issueDocumentId!!) ?: return ResponseEntity.notFound().build()
+        val issueDocument =
+            issueDocumentService.getIssueDocument(issue.issueDocumentId!!) ?: return ResponseEntity.notFound().build()
 
         val file = issueService.getFile(issueDocument)
+        return ResponseEntity.ok()
+            .header("Content-Type", issueDocument.contentType)
+            .body(file)
+    }
+
+    override fun downloadAudioFile(id: Long): ResponseEntity<ByteArray> {
+        val issue = issueService.getIssue(id) ?: return ResponseEntity.notFound().build()
+        val issueDocument =
+            issue.voiceDescriptionId?.let {
+                issueVoiceDescriptionService.getIssueVoiceDescription(it)
+            } ?: return ResponseEntity.notFound().build()
+
+        val file = issueService.getVoiceDescriptionFile(issueDocument)
         return ResponseEntity.ok()
             .header("Content-Type", issueDocument.contentType)
             .body(file)

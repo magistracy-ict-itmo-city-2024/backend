@@ -14,6 +14,8 @@ data class IssueDto(
     val documentPath: String? = null,
     val contentType: String? = null,
     val actualityStatus: ActualStatusDto? = null,
+    val isDescriptionByVoice: Boolean = false,
+    val voiceDescriptionId: Long? = null,
 ) {
     enum class StatusDto {
         OPEN,

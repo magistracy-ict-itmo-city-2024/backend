@@ -24,8 +24,8 @@ class WebSecurityConfig {
         http
             .csrf()
             .disable()
-            .httpBasic()
-            .and()
+//            .httpBasic()
+//            .and()
             .cors()
             .and()
             .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter::class.java)

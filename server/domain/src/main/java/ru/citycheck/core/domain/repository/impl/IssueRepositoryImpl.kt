@@ -81,6 +81,8 @@ class IssueRepositoryImpl(
             location.lon,
             issueDocumentId,
             reporterId,
+            isDescriptionByVoice,
+            voiceDescriptionId
         ).apply { changed(ISSUE.ID, false) }
 
         private fun IssueRecord.toModel() = Issue(
@@ -99,6 +101,8 @@ class IssueRepositoryImpl(
                 locationLat,
                 locationLon,
             ),
+            isDescriptionByVoice,
+            voiceDescriptionId,
         )
     }
 }

@@ -13,6 +13,8 @@ data class Issue(
     val issueDocumentId: Long?,
     val actualityStatus: ActualStatus,
     val location: Location,
+    val isDescriptionByVoice: Boolean = false,
+    val voiceDescriptionId: Long? = null,
 ) {
     enum class Status {
         OPEN,

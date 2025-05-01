@@ -35,6 +35,26 @@ class MlService(
         return predictionResult
     }
 
+    fun processSpeachToText(issue: Issue): String {
+//        val requestBody = objectMapper.writeValueAsString(issue)
+//        log.debug(requestBody)
+//
+//        val response = httpClient.preparePost("mlUrl/process_speech_to_text")
+//            .setBody(requestBody)
+//            .addHeader("Content-Type", "application/json")
+//            .execute()
+//            .get()
+//
+//        log.debug("Response: ${response.responseBody}")
+//
+//        val text = objectMapper.readTree(response.responseBodyAsBytes).get("text").asText()
+//
+//        log.info("Text: $text")
+//
+//        return text
+        return "Qwerty"
+    }
+
     companion object {
         private val log = LoggerFactory.getLogger(MlService::class.java)
     }

@@ -31,6 +31,11 @@ public class Sequences {
     public static final Sequence<Long> ISSUE_ID_SEQ = Internal.createSequence("issue_id_seq", Public.PUBLIC, SQLDataType.BIGINT.nullable(false), null, null, null, null, false, null);
 
     /**
+     * The sequence <code>public.issue_voice_description_id_seq</code>
+     */
+    public static final Sequence<Long> ISSUE_VOICE_DESCRIPTION_ID_SEQ = Internal.createSequence("issue_voice_description_id_seq", Public.PUBLIC, SQLDataType.BIGINT.nullable(false), null, null, null, null, false, null);
+
+    /**
      * The sequence <code>public.users_id_seq</code>
      */
     public static final Sequence<Long> USERS_ID_SEQ = Internal.createSequence("users_id_seq", Public.PUBLIC, SQLDataType.BIGINT.nullable(false), null, null, null, null, false, null);

@@ -1,8 +1,6 @@
 package ru.citycheck.core.api.v0.issue
 
-import io.swagger.v3.oas.annotations.OpenAPIDefinition
 import io.swagger.v3.oas.annotations.Operation
-import io.swagger.v3.oas.annotations.headers.Header
 import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
@@ -24,6 +22,7 @@ interface IssueController {
     fun createIssue(
         @RequestParam("file") file: MultipartFile,
         @RequestParam("issue") issue: IssueDto,
+        @RequestParam("audioDescription") audioDescription: MultipartFile? = null,
     ): ResponseEntity<IssueDto>
 
     @PreAuthorize("hasAuthority('ADMIN')")
@@ -82,6 +81,13 @@ interface IssueController {
     fun downloadFile(
         @PathVariable id: Long,
     ): ResponseEntity<ByteArray>
+
+    @GetMapping("/{id}/downloadAudioFile")
+    @Operation(
+        summary = "Download audio file",
+        description = "Download audio file by issue id",
+    )
+    fun downloadAudioFile(@PathVariable id: Long): ResponseEntity<ByteArray>
 
     @GetMapping("/trigger_prediction/{id}")
     @Operation(

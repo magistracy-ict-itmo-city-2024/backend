@@ -1,6 +1,5 @@
 package ru.citycheck.core.web.v0.issue.converter
 
-import org.springframework.web.multipart.MultipartFile
 import ru.citycheck.core.api.v0.dto.issue.IssueDto
 import ru.citycheck.core.api.v0.dto.issue.LocationDto
 import ru.citycheck.core.domain.model.issue.Issue
@@ -8,7 +7,6 @@ import ru.citycheck.core.domain.model.issue.IssueDocument
 import ru.citycheck.core.domain.model.issue.Location
 
 fun IssueDto.toModel(
-    file: MultipartFile? = null,
     reporterId: Long? = null,
 ) = Issue(
     id = id,
@@ -23,6 +21,8 @@ fun IssueDto.toModel(
     issueDocumentId = null,
     actualityStatus = actualityStatus?.toModel() ?: Issue.ActualStatus.ACTUAL,
     location = location.toModel(),
+    voiceDescriptionId = voiceDescriptionId,
+    isDescriptionByVoice = isDescriptionByVoice,
 )
 
 fun IssueDto.StatusDto.toModel() = Issue.Status.valueOf(name)
@@ -50,6 +50,8 @@ fun Issue.toDto(issueDocument: IssueDocument) = IssueDto(
     contentType = issueDocument.contentType,
     actualityStatus = actualityStatus.toDto(),
     location = location.toDto(),
+    isDescriptionByVoice = isDescriptionByVoice,
+    voiceDescriptionId = voiceDescriptionId,
 )
 
 fun Issue.Status.toDto() = IssueDto.StatusDto.valueOf(name)

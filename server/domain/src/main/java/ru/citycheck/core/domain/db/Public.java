@@ -16,6 +16,7 @@ import ru.citycheck.core.domain.db.tables.Category;
 import ru.citycheck.core.domain.db.tables.FlywaySchemaHistory;
 import ru.citycheck.core.domain.db.tables.Issue;
 import ru.citycheck.core.domain.db.tables.IssueDocument;
+import ru.citycheck.core.domain.db.tables.IssueVoiceDescription;
 import ru.citycheck.core.domain.db.tables.JwtTokens;
 import ru.citycheck.core.domain.db.tables.UserRoles;
 import ru.citycheck.core.domain.db.tables.Users;
@@ -55,6 +56,11 @@ public class Public extends SchemaImpl {
     public final IssueDocument ISSUE_DOCUMENT = IssueDocument.ISSUE_DOCUMENT;
 
     /**
+     * The table <code>public.issue_voice_description</code>.
+     */
+    public final IssueVoiceDescription ISSUE_VOICE_DESCRIPTION = IssueVoiceDescription.ISSUE_VOICE_DESCRIPTION;
+
+    /**
      * The table <code>public.jwt_tokens</code>.
      */
     public final JwtTokens JWT_TOKENS = JwtTokens.JWT_TOKENS;
@@ -88,6 +94,7 @@ public class Public extends SchemaImpl {
             Sequences.CATEGORY_ID_SEQ,
             Sequences.ISSUE_DOCUMENT_ID_SEQ,
             Sequences.ISSUE_ID_SEQ,
+            Sequences.ISSUE_VOICE_DESCRIPTION_ID_SEQ,
             Sequences.USERS_ID_SEQ);
     }
 
@@ -98,6 +105,7 @@ public class Public extends SchemaImpl {
             FlywaySchemaHistory.FLYWAY_SCHEMA_HISTORY,
             Issue.ISSUE,
             IssueDocument.ISSUE_DOCUMENT,
+            IssueVoiceDescription.ISSUE_VOICE_DESCRIPTION,
             JwtTokens.JWT_TOKENS,
             UserRoles.USER_ROLES,
             Users.USERS);

@@ -14,12 +14,14 @@ import ru.citycheck.core.domain.db.tables.Category;
 import ru.citycheck.core.domain.db.tables.FlywaySchemaHistory;
 import ru.citycheck.core.domain.db.tables.Issue;
 import ru.citycheck.core.domain.db.tables.IssueDocument;
+import ru.citycheck.core.domain.db.tables.IssueVoiceDescription;
 import ru.citycheck.core.domain.db.tables.JwtTokens;
 import ru.citycheck.core.domain.db.tables.Users;
 import ru.citycheck.core.domain.db.tables.records.CategoryRecord;
 import ru.citycheck.core.domain.db.tables.records.FlywaySchemaHistoryRecord;
 import ru.citycheck.core.domain.db.tables.records.IssueDocumentRecord;
 import ru.citycheck.core.domain.db.tables.records.IssueRecord;
+import ru.citycheck.core.domain.db.tables.records.IssueVoiceDescriptionRecord;
 import ru.citycheck.core.domain.db.tables.records.JwtTokensRecord;
 import ru.citycheck.core.domain.db.tables.records.UsersRecord;
 
@@ -39,6 +41,7 @@ public class Keys {
     public static final UniqueKey<FlywaySchemaHistoryRecord> FLYWAY_SCHEMA_HISTORY_PK = Internal.createUniqueKey(FlywaySchemaHistory.FLYWAY_SCHEMA_HISTORY, DSL.name("flyway_schema_history_pk"), new TableField[] { FlywaySchemaHistory.FLYWAY_SCHEMA_HISTORY.INSTALLED_RANK }, true);
     public static final UniqueKey<IssueRecord> ISSUE_PKEY = Internal.createUniqueKey(Issue.ISSUE, DSL.name("issue_pkey"), new TableField[] { Issue.ISSUE.ID }, true);
     public static final UniqueKey<IssueDocumentRecord> ISSUE_DOCUMENT_PKEY = Internal.createUniqueKey(IssueDocument.ISSUE_DOCUMENT, DSL.name("issue_document_pkey"), new TableField[] { IssueDocument.ISSUE_DOCUMENT.ID }, true);
+    public static final UniqueKey<IssueVoiceDescriptionRecord> ISSUE_VOICE_DESCRIPTION_PKEY = Internal.createUniqueKey(IssueVoiceDescription.ISSUE_VOICE_DESCRIPTION, DSL.name("issue_voice_description_pkey"), new TableField[] { IssueVoiceDescription.ISSUE_VOICE_DESCRIPTION.ID }, true);
     public static final UniqueKey<JwtTokensRecord> JWT_TOKENS_JWT_TOKEN_KEY = Internal.createUniqueKey(JwtTokens.JWT_TOKENS, DSL.name("jwt_tokens_jwt_token_key"), new TableField[] { JwtTokens.JWT_TOKENS.JWT_TOKEN }, true);
     public static final UniqueKey<UsersRecord> USERS_PKEY = Internal.createUniqueKey(Users.USERS, DSL.name("users_pkey"), new TableField[] { Users.USERS.ID }, true);
     public static final UniqueKey<UsersRecord> USERS_USERNAME_KEY = Internal.createUniqueKey(Users.USERS, DSL.name("users_username_key"), new TableField[] { Users.USERS.USERNAME }, true);
@@ -51,4 +54,5 @@ public class Keys {
     public static final ForeignKey<IssueRecord, CategoryRecord> ISSUE__ISSUE_CATEGORY_ID_FKEY = Internal.createForeignKey(Issue.ISSUE, DSL.name("issue_category_id_fkey"), new TableField[] { Issue.ISSUE.CATEGORY_ID }, Keys.CATEGORY_PKEY, new TableField[] { Category.CATEGORY.ID }, true);
     public static final ForeignKey<IssueRecord, IssueDocumentRecord> ISSUE__ISSUE_DOCUMENT_ID_FKEY = Internal.createForeignKey(Issue.ISSUE, DSL.name("issue_document_id_fkey"), new TableField[] { Issue.ISSUE.DOCUMENT_ID }, Keys.ISSUE_DOCUMENT_PKEY, new TableField[] { IssueDocument.ISSUE_DOCUMENT.ID }, true);
     public static final ForeignKey<IssueRecord, UsersRecord> ISSUE__ISSUE_REPORTER_ID_FKEY = Internal.createForeignKey(Issue.ISSUE, DSL.name("issue_reporter_id_fkey"), new TableField[] { Issue.ISSUE.REPORTER_ID }, Keys.USERS_PKEY, new TableField[] { Users.USERS.ID }, true);
+    public static final ForeignKey<IssueRecord, IssueVoiceDescriptionRecord> ISSUE__ISSUE_VOICE_DESCRIPTION_ID_FKEY = Internal.createForeignKey(Issue.ISSUE, DSL.name("issue_voice_description_id_fkey"), new TableField[] { Issue.ISSUE.VOICE_DESCRIPTION_ID }, Keys.ISSUE_VOICE_DESCRIPTION_PKEY, new TableField[] { IssueVoiceDescription.ISSUE_VOICE_DESCRIPTION.ID }, true);
 }

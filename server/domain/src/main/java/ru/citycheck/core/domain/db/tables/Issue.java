@@ -13,7 +13,7 @@ import org.jooq.Identity;
 import org.jooq.Index;
 import org.jooq.Name;
 import org.jooq.Record;
-import org.jooq.Row13;
+import org.jooq.Row15;
 import org.jooq.Schema;
 import org.jooq.Table;
 import org.jooq.TableField;
@@ -115,6 +115,16 @@ public class Issue extends TableImpl<IssueRecord> {
      */
     public final TableField<IssueRecord, Long> REPORTER_ID = createField(DSL.name("reporter_id"), SQLDataType.BIGINT.nullable(false), this, "");
 
+    /**
+     * The column <code>public.issue.is_description_by_voice</code>.
+     */
+    public final TableField<IssueRecord, Boolean> IS_DESCRIPTION_BY_VOICE = createField(DSL.name("is_description_by_voice"), SQLDataType.BOOLEAN.defaultValue(DSL.field("false", SQLDataType.BOOLEAN)), this, "");
+
+    /**
+     * The column <code>public.issue.voice_description_id</code>.
+     */
+    public final TableField<IssueRecord, Long> VOICE_DESCRIPTION_ID = createField(DSL.name("voice_description_id"), SQLDataType.BIGINT, this, "");
+
     private Issue(Name alias, Table<IssueRecord> aliased) {
         this(alias, aliased, null);
     }
@@ -175,13 +185,14 @@ public class Issue extends TableImpl<IssueRecord> {
 
     @Override
     public List<ForeignKey<IssueRecord, ?>> getReferences() {
-        return Arrays.<ForeignKey<IssueRecord, ?>>asList(Keys.ISSUE__ISSUE_CATEGORY_ID_FKEY, Keys.ISSUE__ISSUE_ASSIGNEE_ID_FKEY, Keys.ISSUE__ISSUE_DOCUMENT_ID_FKEY, Keys.ISSUE__ISSUE_REPORTER_ID_FKEY);
+        return Arrays.<ForeignKey<IssueRecord, ?>>asList(Keys.ISSUE__ISSUE_CATEGORY_ID_FKEY, Keys.ISSUE__ISSUE_ASSIGNEE_ID_FKEY, Keys.ISSUE__ISSUE_DOCUMENT_ID_FKEY, Keys.ISSUE__ISSUE_REPORTER_ID_FKEY, Keys.ISSUE__ISSUE_VOICE_DESCRIPTION_ID_FKEY);
     }
 
     private transient Category _category;
     private transient Users _issueAssigneeIdFkey;
     private transient IssueDocument _issueDocument;
     private transient Users _issueReporterIdFkey;
+    private transient IssueVoiceDescription _issueVoiceDescription;
 
     public Category category() {
         if (_category == null)
@@ -211,6 +222,13 @@ public class Issue extends TableImpl<IssueRecord> {
         return _issueReporterIdFkey;
     }
 
+    public IssueVoiceDescription issueVoiceDescription() {
+        if (_issueVoiceDescription == null)
+            _issueVoiceDescription = new IssueVoiceDescription(this, Keys.ISSUE__ISSUE_VOICE_DESCRIPTION_ID_FKEY);
+
+        return _issueVoiceDescription;
+    }
+
     @Override
     public Issue as(String alias) {
         return new Issue(DSL.name(alias), this);
@@ -238,11 +256,11 @@ public class Issue extends TableImpl<IssueRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row13 type methods
+    // Row15 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row13<Long, String, String, String, Long, Long, Long, Long, String, Double, Double, Long, Long> fieldsRow() {
-        return (Row13) super.fieldsRow();
+    public Row15<Long, String, String, String, Long, Long, Long, Long, String, Double, Double, Long, Long, Boolean, Long> fieldsRow() {
+        return (Row15) super.fieldsRow();
     }
 }
